@@ -1,0 +1,37 @@
+{
+  "name": "unist-util-parents",
+  "version": "0.0.0",
+  "description": "Add a parent reference for each AST node",
+  "author": "Eugene Sharygin <eush77@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "test": "tape test/*.js"
+  },
+  "files": [
+    "index.js"
+  ],
+  "homepage": "https://github.com/eush77/unist-util-parents",
+  "repository": "eush77/unist-util-parents",
+  "bugs": {
+    "url": "https://github.com/eush77/unist-util-parents/issues"
+  },
+  "keywords": [
+    "unist",
+    "mdast",
+    "retext",
+    "util",
+    "parent",
+    "parents",
+    "node",
+    "nodes",
+    "ast",
+    "reference",
+    "walk"
+  ],
+  "dependencies": {
+    "unist-util-visit": "^1.0.0"
+  },
+  "devDependencies": {
+    "tape": "^4.0.2"
+  }
+}

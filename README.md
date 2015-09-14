@@ -13,17 +13,53 @@ Add parent references to [unist] nodes.
 [david]: https://david-dm.org/eush77/unist-util-parents
 [david-badge]: https://david-dm.org/eush77/unist-util-parents.png
 
-## Usage
+## Example
+
+Unwrap all `emphasis` and `strong` nodes:
 
 ```js
-var mdast = require('mdast'),
-    unistUtilParents = require('unist-util-parents');
+var parents = require('unist-util-parents'),
+    select = require('unist-util-select');
 
-var ast = mdast.parse('# hello world');
-unistUtilParents(ast) // === ast
+var ast = mdast.parse(src);
+select(parents(ast), 'emphasis, strong').forEach(function (em) {
+  var siblings = em.parent.node.children;
+  var index = siblings.indexOf(em.node);
+  [].splice.apply(siblings, [index, 1].concat(em.node.children));
+});
+```
 
-ast.children[0].parent === ast
-//=> true
+Which turns this:
+
+```md
+# Drop highlight
+
+Drop __all__ the [*emphasis*][1] and **bold** highlighting, leaving
+
+| _everything_ |
+| :----------: |
+|    `else`    |
+
+## __intact__
+
+[1]: https://ddg.gg/?q=emphasis
+```
+
+into this:
+
+```md
+# Drop highlight
+
+Drop all the [emphasis][1] and bold highlighting, leaving
+
+| everything |
+| :--------: |
+|   `else`   |
+
+## intact
+
+[1]: https://ddg.gg/?q=emphasis
+
 ```
 
 ## API

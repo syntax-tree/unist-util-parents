@@ -28,10 +28,9 @@
     "reference",
     "walk"
   ],
-  "dependencies": {
-    "unist-util-visit": "^1.0.0"
-  },
+  "dependencies": {},
   "devDependencies": {
+    "clone": "^1.0.2",
     "tape": "^4.0.2"
   }
 }

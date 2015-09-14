@@ -30,10 +30,11 @@ ast.children[0].parent === ast
 
 #### `parents(ast) -> wrappedAst`
 
-Wraps AST with a proxy that imposes two additional properties on all nodes:
+Wraps AST with a proxy that imposes three additional properties on all nodes:
 
 - `parent` — parent link, `null` for the root node.
 - `node` — link to the original AST node, e.g. for adding or changing attributes.
+- `index()` — method that returns index of this node in the parent's `children` array, `null` for the root node.
 
 None of these properties are enumerable, and the original AST is _not changed_. This means you can JSON.stringify the wrapped tree and it is just the same.
 

@@ -34,5 +34,18 @@ test('parent links', function (t) {
   t.equal(heading.parent, root, 'heading.parent === root');
   t.false(root.parent, 'root has no parent');
 
+  t.equal(Object.keys(sum).indexOf('parent'), -1, 'not enumerable');
+
+  t.end();
+});
+
+
+test('node links', function (t) {
+  var root = parents(ast);
+  var heading = root.children[0];
+  var headingNode = ast.children[0];
+
+  t.equal(heading.node, headingNode);
+  t.equal(Object.keys(heading).indexOf('node'), -1, 'not enumerable');
   t.end();
 });

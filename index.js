@@ -14,6 +14,12 @@ function wrapNode (node, parent) {
     return acc;
   }, {});
 
+  Object.defineProperty(proxy, 'node', {
+    writable: true,
+    configurable: true,
+    value: node
+  });
+
   Object.defineProperty(proxy, 'parent', {
     writable: true,
     configurable: true,

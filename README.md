@@ -4,7 +4,9 @@
 
 [![Build Status][travis-badge]][travis] [![Dependency Status][david-badge]][david]
 
-Add a parent reference for each UniST node.
+Add parent references to [unist] nodes.
+
+[unist]: https://github.com/wooorm/unist
 
 [travis]: https://travis-ci.org/eush77/unist-util-parents
 [travis-badge]: https://travis-ci.org/eush77/unist-util-parents.svg
@@ -26,19 +28,16 @@ ast.children[0].parent === ast
 
 ## API
 
-#### `unistUtilParents(ast)`
+#### `parents(ast) -> wrappedAst`
 
-Adds `.parent` to each AST node pointing to a parent node (or `null` for the root node).
+Wraps AST with a proxy that imposes two additional properties on all nodes:
 
-`parent` becomes a non-enumerable property of nodes, which means `JSON.stringify` will not be confused with circular references.
+- `parent` — parent link, `null` for the root node.
+- `node` — link to the original AST node, e.g. for adding or changing attributes.
 
-```
-Object.keys(ast.children[0])
-//=> [ 'type', 'depth', 'children' ]
+None of these properties are enumerable, and the original AST is _not changed_. This means you can JSON.stringify the wrapped tree and it is just the same.
 
-JSON.stringify(ast.children[0])
-//=> '{"type":"heading","depth":1,"children":[{"type":"text","value":"hello"}]}'
-```
+Remember to access `.node` before you commit any changes to a node, including its `children` array.
 
 ## Install
 

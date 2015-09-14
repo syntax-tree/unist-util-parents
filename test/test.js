@@ -35,6 +35,7 @@ test('parent links', function (t) {
   t.false(root.parent, 'root has no parent');
 
   t.equal(Object.keys(sum).indexOf('parent'), -1, 'not enumerable');
+
   t.end();
 });
 
@@ -46,21 +47,5 @@ test('node links', function (t) {
 
   t.equal(heading.node, headingNode);
   t.equal(Object.keys(heading).indexOf('node'), -1, 'not enumerable');
-  t.end();
-});
-
-
-test('index()', function (t) {
-  var root = parents(ast);
-  var heading = root.children[0];
-  var emphasis = heading.children[1];
-
-  t.equal(root.index(), null, 'root.index() === null');
-  t.equal(heading.index(), 0, 'heading.index() === 0');
-  t.equal(emphasis.index(), 1, 'emphasis.index() === 1');
-  t.equal(emphasis.parent.children[emphasis.index()].node, emphasis.node,
-          'wrapper.parent.children[wrapper.index()].node invariant');
-
-  t.equal(Object.keys(emphasis).indexOf('index'), -1, 'not enumerable');
   t.end();
 });

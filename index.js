@@ -38,21 +38,5 @@ function wrapNode (node, parent) {
     });
   }
 
-  Object.defineProperty(proxy, 'index', {
-    writable: true,
-    configurable: true,
-    value: function () {
-      if (parent) {
-        var children = parent.children;
-        for (var index = 0; index < children.length; ++index) {
-          if (children[index].node == node) {
-            return index;
-          }
-        }
-      }
-      return null;
-    }
-  });
-
   return proxy;
 }

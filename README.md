@@ -4,7 +4,9 @@
 
 [![Build Status][travis-badge]][travis] [![Dependency Status][david-badge]][david]
 
-Add parent references to [unist] nodes.
+Add parent references to [unist] nodes. Instead of modifying the original unist tree, this module returns a wrapper that makes it easier to traverse that tree.
+
+Algorithms that work on regular unist trees are (mostly) guaranteed to worked on wrapped trees, and each wrapped node maintains a reference to the node from which it originated.
 
 [unist]: https://github.com/wooorm/unist
 

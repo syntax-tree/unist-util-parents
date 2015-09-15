@@ -1,6 +1,6 @@
 # Drop highlight
 
-Drop __all__ the [*emphasis*][1] and **bold** highlighting, leaving
+Drop __all__ the [*emphasis*][1] and **[bold][1]** highlighting, leaving
 
 | _everything_ |
 | :----------: |

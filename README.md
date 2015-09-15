@@ -13,7 +13,26 @@ Add parent references to [unist] nodes.
 [david]: https://david-dm.org/eush77/unist-util-parents
 [david-badge]: https://david-dm.org/eush77/unist-util-parents.png
 
-## Example
+## Examples
+
+Follow parent links:
+
+```js
+var ast = mdast.parse('- top-level item\n' +
+                      '  - subitem 1\n' +
+                      '  - subitem 2\n');
+
+// "subitem 2"
+var item = parents(ast).children[0].children[0].children[1].children[1];
+
+var chain = [];
+while (item) {
+  chain.unshift(item.type);
+  item = item.parent;
+}
+chain
+//=> [ 'root', 'list', 'listItem', 'list', 'listItem' ]
+```
 
 Unwrap all `emphasis` and `strong` nodes:
 
@@ -21,7 +40,6 @@ Unwrap all `emphasis` and `strong` nodes:
 var parents = require('unist-util-parents'),
     select = require('unist-util-select');
 
-var ast = mdast.parse(src);
 select(parents(ast), 'emphasis, strong').forEach(function (em) {
   var siblings = em.parent.node.children;
   var index = siblings.indexOf(em.node);
@@ -29,12 +47,12 @@ select(parents(ast), 'emphasis, strong').forEach(function (em) {
 });
 ```
 
-Which turns this:
+input:
 
 ```md
 # Drop highlight
 
-Drop __all__ the [*emphasis*][1] and **bold** highlighting, leaving
+Drop __all__ the [*emphasis*][1] and **[bold][1]** highlighting, leaving
 
 | _everything_ |
 | :----------: |
@@ -45,12 +63,12 @@ Drop __all__ the [*emphasis*][1] and **bold** highlighting, leaving
 [1]: https://ddg.gg/?q=emphasis
 ```
 
-into this:
+output:
 
 ```md
 # Drop highlight
 
-Drop all the [emphasis][1] and bold highlighting, leaving
+Drop all the [emphasis][1] and [bold][1] highlighting, leaving
 
 | everything |
 | :--------: |
@@ -59,21 +77,22 @@ Drop all the [emphasis][1] and bold highlighting, leaving
 ## intact
 
 [1]: https://ddg.gg/?q=emphasis
-
 ```
 
 ## API
 
 #### `parents(ast) -> wrappedAst`
 
-Wraps AST with a proxy that imposes two additional properties on all nodes:
+Wraps AST with a proxy that imposes two additional properties on all of its nodes:
 
 - `parent` — parent link, `null` for the root node.
-- `node` — link to the original AST node, e.g. for adding or changing attributes.
+- `node` — link to the original AST node.
 
 None of these properties are enumerable, and the original AST is _not changed_. This means you can JSON.stringify the wrapped tree and it is just the same.
 
-Remember to access `.node` before you commit any changes to a node, including its `children` array.
+`wrappedAst.children` returns array of wrapped child nodes, so that any recursive algorithm will work on a wrapped tree just as well.
+
+Remember to access `.node` before you commit any changes to a node.
 
 ## Install
 

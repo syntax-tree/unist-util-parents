@@ -1,12 +1,20 @@
 'use strict';
 
+var Map = require('es6-map');
+
 
 module.exports = function (ast) {
   return wrapNode(ast, null);
 };
 
 
+var cache = new Map;
+
 function wrapNode (node, parent) {
+  if (cache.has(node)) {
+    return cache.get(node);
+  }
+
   var proxy = Object.keys(node).reduce(function (acc, key) {
     if (key != 'children') {
       acc[key] = node[key];
@@ -21,9 +29,13 @@ function wrapNode (node, parent) {
   });
 
   Object.defineProperty(proxy, 'parent', {
-    writable: true,
     configurable: true,
-    value: parent
+    get: function () {
+      return parent;
+    },
+    set: function (newParent) {
+      parent = newParent;
+    }
   });
 
   if (node.children) {
@@ -38,5 +50,6 @@ function wrapNode (node, parent) {
     });
   }
 
+  cache.set(node, proxy);
   return proxy;
 }

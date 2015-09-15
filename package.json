@@ -29,7 +29,9 @@
     "reference",
     "walk"
   ],
-  "dependencies": {},
+  "dependencies": {
+    "es6-map": "^0.1.1"
+  },
   "devDependencies": {
     "clone": "^1.0.2",
     "tape": "^4.0.2"

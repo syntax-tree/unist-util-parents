@@ -20,7 +20,7 @@ test('immutable', function (t) {
 
 
 test('parent links', function (t) {
-  var root = parents(ast);
+  var root = parents(clone(ast));
   var heading = root.children[0];
   var cogito = heading.children[0];
   var emphasis = heading.children[1];
@@ -35,6 +35,9 @@ test('parent links', function (t) {
   t.false(root.parent, 'root has no parent');
 
   t.equal(Object.keys(sum).indexOf('parent'), -1, 'not enumerable');
+
+  ergo.parent = ergo.parent.parent;
+  t.equal(emphasis.children[0].parent, heading, 'can modify parent link');
 
   t.end();
 });

@@ -1,6 +1,6 @@
 {
   "name": "unist-util-parents",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Add a parent reference for each AST node",
   "author": "Eugene Sharygin <eush77@gmail.com>",
   "license": "MIT",

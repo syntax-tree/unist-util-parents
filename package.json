@@ -30,7 +30,7 @@
     "walk"
   ],
   "dependencies": {
-    "es6-map": "^0.1.1"
+    "es6-weak-map": "^2.0.1"
   },
   "devDependencies": {
     "clone": "^1.0.2",

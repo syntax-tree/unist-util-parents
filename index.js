@@ -1,6 +1,6 @@
 'use strict';
 
-var Map = require('es6-map');
+var WeakMap = require('es6-weak-map');
 
 
 module.exports = function (ast) {
@@ -8,7 +8,7 @@ module.exports = function (ast) {
 };
 
 
-var cache = new Map;
+var cache = new WeakMap;
 
 function wrapNode (node, parent) {
   if (cache.has(node)) {

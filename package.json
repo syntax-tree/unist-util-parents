@@ -18,7 +18,8 @@
   },
   "keywords": [
     "unist",
-    "mdast",
+    "remark",
+    "rehype",
     "retext",
     "util",
     "parent",

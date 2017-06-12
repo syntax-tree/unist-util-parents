@@ -17,68 +17,42 @@ Algorithms that work on regular unist trees are (mostly) guaranteed to worked on
 
 ## Examples
 
-Follow parent links:
+Say `example.md` looks as follows:
 
-```js
-var ast = mdast.parse('- top-level item\n' +
-                      '  - subitem 1\n' +
-                      '  - subitem 2\n');
+```markdown
+*   top-level item
+
+    *   subitem 1
+    *   subitem 2
+```
+
+...and to follow parent links, our `example.js` looks like this:
+
+```javascript
+var vfile = require('to-vfile');
+var unified = require('unified');
+var parse = require('remark-parse');
+var parents = require('unist-util-parents');
+
+var file = vfile.readSync('example.md');
+var tree = unified().use(parse).parse(file);
 
 // "subitem 2"
-var item = parents(ast).children[0].children[0].children[1].children[1];
+var item = parents(tree).children[0].children[0].children[1].children[1];
 
 var chain = [];
 while (item) {
   chain.unshift(item.type);
   item = item.parent;
 }
-chain
-//=> [ 'root', 'list', 'listItem', 'list', 'listItem' ]
+
+console.log(chain);
 ```
 
-Unwrap all `emphasis` and `strong` nodes:
+Yields:
 
-```js
-var parents = require('unist-util-parents'),
-    select = require('unist-util-select');
-
-select(parents(ast), 'emphasis, strong').forEach(function (em) {
-  var siblings = em.parent.node.children;
-  var index = siblings.indexOf(em.node);
-  [].splice.apply(siblings, [index, 1].concat(em.node.children));
-});
-```
-
-input:
-
-```md
-# Drop highlight
-
-Drop __all__ the [*emphasis*][1] and **[bold][1]** highlighting, leaving
-
-| _everything_ |
-| :----------: |
-|    `else`    |
-
-## __intact__
-
-[1]: https://ddg.gg/?q=emphasis
-```
-
-output:
-
-```md
-# Drop highlight
-
-Drop all the [emphasis][1] and [bold][1] highlighting, leaving
-
-| everything |
-| :--------: |
-|   `else`   |
-
-## intact
-
-[1]: https://ddg.gg/?q=emphasis
+```javascript
+[ 'root', 'list', 'listItem', 'list', 'listItem' ]
 ```
 
 ## API

@@ -10,10 +10,10 @@ Algorithms that work on regular unist trees are (mostly) guaranteed to worked on
 
 [unist]: https://github.com/wooorm/unist
 
-[travis]: https://travis-ci.org/eush77/unist-util-parents
-[travis-badge]: https://travis-ci.org/eush77/unist-util-parents.svg
-[david]: https://david-dm.org/eush77/unist-util-parents
-[david-badge]: https://david-dm.org/eush77/unist-util-parents.png
+[travis]: https://travis-ci.org/syntax-tree/unist-util-parents
+[travis-badge]: https://travis-ci.org/syntax-tree/unist-util-parents.svg
+[david]: https://david-dm.org/syntax-tree/unist-util-parents
+[david-badge]: https://david-dm.org/syntax-tree/unist-util-parents.png
 
 ## Examples
 

@@ -2,21 +2,7 @@
   "name": "unist-util-parents",
   "version": "1.0.0",
   "description": "Add a parent reference for each AST node",
-  "author": "Eugene Sharygin <eush77@gmail.com>",
   "license": "MIT",
-  "scripts": {
-    "format": "prettier --write '**/*.js' && xo --fix",
-    "test": "node test",
-    "example": "node example"
-  },
-  "files": [
-    "index.js"
-  ],
-  "homepage": "https://github.com/eush77/unist-util-parents",
-  "repository": "eush77/unist-util-parents",
-  "bugs": {
-    "url": "https://github.com/eush77/unist-util-parents/issues"
-  },
   "keywords": [
     "unist",
     "remark",
@@ -31,6 +17,16 @@
     "reference",
     "walk"
   ],
+  "repository": "eush77/unist-util-parents",
+  "bugs": "https://github.com/eush77/unist-util-parents/issues",
+  "author": "Eugene Sharygin <eush77@gmail.com>",
+  "contributors": [
+    "Eugene Sharygin <eush77@gmail.com>",
+    "Titus Wormer <tituswormer@gmail.com> (http://wooorm.com)"
+  ],
+  "files": [
+    "index.js"
+  ],
   "dependencies": {
     "es6-weak-map": "^2.0.1"
   },
@@ -39,6 +35,11 @@
     "prettier": "^1.14.2",
     "tape": "^4.0.2",
     "xo": "^0.22.0"
+  },
+  "scripts": {
+    "format": "prettier --write '**/*.js' && xo --fix",
+    "test": "node test",
+    "example": "node example"
   },
   "prettier": {
     "tabWidth": 2,

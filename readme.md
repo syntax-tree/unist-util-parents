@@ -1,21 +1,22 @@
-[![npm](https://nodei.co/npm/unist-util-parents.png)](https://npmjs.com/package/unist-util-parents)
+# unist-util-parents [![Build Status][travis-badge]][travis] [![Coverage Status][codecov-badge]][codecov]
 
-# unist-util-parents
+Add parent references to [**unist**][unist] nodes.
+Instead of modifying the original syntax tree, this module returns a wrapper
+that makes it easier to traverse that tree.
 
-[![Build Status][travis-badge]][travis] [![Dependency Status][david-badge]][david]
+Algorithms that work on regular unist trees are (mostly) guaranteed to work on
+wrapped trees, and each wrapped node maintains a reference to the node from
+which it originated.
 
-Add parent references to [unist][] nodes. Instead of modifying the original unist tree, this module returns a wrapper that makes it easier to traverse that tree.
+## Installation
 
-Algorithms that work on regular unist trees are (mostly) guaranteed to worked on wrapped trees, and each wrapped node maintains a reference to the node from which it originated.
+[npm][]:
 
-[unist]: https://github.com/wooorm/unist
+```bash
+npm install unist-util-parents
+```
 
-[travis]: https://travis-ci.org/syntax-tree/unist-util-parents
-[travis-badge]: https://travis-ci.org/syntax-tree/unist-util-parents.svg
-[david]: https://david-dm.org/syntax-tree/unist-util-parents
-[david-badge]: https://david-dm.org/syntax-tree/unist-util-parents.png
-
-## Examples
+## Usage
 
 Say `example.md` looks as follows:
 
@@ -58,25 +59,57 @@ Yields:
 
 ## API
 
-#### `parents(ast) -> wrappedAst`
+### `parents(tree)`
 
-Wraps AST with a proxy that imposes two additional properties on all of its nodes:
+Returns a wrapped `tree` with a proxy that imposes two additional properties on
+all of its nodes:
 
--   `parent` — parent link, `null` for the root node.
--   `node` — link to the original AST node.
+*   `parent` — parent link (or `null` for the root node)
+*   `node` — link to the original node
 
-None of these properties are enumerable, and the original AST is _not changed_. This means you can JSON.stringify the wrapped tree and it is just the same.
+None of these properties are enumerable, and the original tree is _not changed_.
+This means you can `JSON.stringify` the wrapped tree and it is just the same.
 
-`wrappedAst.children` returns array of wrapped child nodes, so that any recursive algorithm will work on a wrapped tree just as well.
+`wrappedTree.children` returns array of wrapped child nodes, so that any
+recursive algorithm will work on a wrapped tree just as well.
 
 Remember to access `.node` before you commit any changes to a node.
 
-## Install
+## Related
 
-```
-npm install unist-util-parents
-```
+*   [`unist-util-visit-parents`][unist-util-visit-parents]
+    — Recursively walk over unist nodes, with ancestral information
+
+## Contribute
+
+See [`contributing.md` in `syntax-tree/unist`][contributing] for ways to get
+started.
+
+This organisation has a [Code of Conduct][coc].  By interacting with this
+repository, organisation, or community you agree to abide by its terms.
 
 ## License
 
-MIT
+[MIT][license] © Eugene Sharygin
+
+<!-- Definitions -->
+
+[travis-badge]: https://img.shields.io/travis/syntax-tree/unist-util-parents.svg
+
+[travis]: https://travis-ci.org/syntax-tree/unist-util-parents
+
+[codecov-badge]: https://img.shields.io/codecov/c/github/syntax-tree/unist-util-parents.svg
+
+[codecov]: https://codecov.io/github/syntax-tree/unist-util-parents
+
+[npm]: https://docs.npmjs.com/cli/install
+
+[license]: license
+
+[contributing]: https://github.com/syntax-tree/unist/blob/master/contributing.md
+
+[coc]: https://github.com/syntax-tree/unist/blob/master/code-of-conduct.md
+
+[unist]: https://github.com/syntax-tree/unist
+
+[unist-util-visit-parents]: https://github.com/syntax-tree/unist-util-visit-parents

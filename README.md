@@ -29,24 +29,25 @@ Say `example.md` looks as follows:
 ...and to follow parent links, our `example.js` looks like this:
 
 ```javascript
-var vfile = require('to-vfile');
-var unified = require('unified');
-var parse = require('remark-parse');
-var parents = require('unist-util-parents');
+var vfile = require('to-vfile')
+var unified = require('unified')
+var parse = require('remark-parse')
+var parents = require('unist-util-parents')
 
-var file = vfile.readSync('example.md');
-var tree = unified().use(parse).parse(file);
+var tree = unified()
+  .use(parse)
+  .parse(vfile.readSync('example.md'))
 
 // "subitem 2"
-var item = parents(tree).children[0].children[0].children[1].children[1];
+var item = parents(tree).children[0].children[0].children[1].children[1]
 
-var chain = [];
+var chain = []
 while (item) {
-  chain.unshift(item.type);
-  item = item.parent;
+  chain.unshift(item.type)
+  item = item.parent
 }
 
-console.log(chain);
+console.log(chain)
 ```
 
 Yields:

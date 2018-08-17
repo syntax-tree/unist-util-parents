@@ -5,7 +5,8 @@
   "author": "Eugene Sharygin <eush77@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "test": "tape test/*.js",
+    "format": "prettier --write '**/*.js' && xo --fix",
+    "test": "node test",
     "example": "node example"
   },
   "files": [
@@ -35,6 +36,20 @@
   },
   "devDependencies": {
     "clone": "^2.1.1",
-    "tape": "^4.0.2"
+    "prettier": "^1.14.2",
+    "tape": "^4.0.2",
+    "xo": "^0.22.0"
+  },
+  "prettier": {
+    "tabWidth": 2,
+    "useTabs": false,
+    "singleQuote": true,
+    "bracketSpacing": false,
+    "semi": false,
+    "trailingComma": "none"
+  },
+  "xo": {
+    "prettier": true,
+    "esnext": false
   }
 }

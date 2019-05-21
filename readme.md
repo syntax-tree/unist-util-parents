@@ -67,7 +67,7 @@ all of its nodes:
 *   `parent` — parent link (or `null` for the root node)
 *   `node` — link to the original node
 
-None of these properties are enumerable, and the original tree is _not changed_.
+None of these properties are enumerable, and the original tree is *not changed*.
 This means you can `JSON.stringify` the wrapped tree and it is just the same.
 
 `wrappedTree.children` returns array of wrapped child nodes, so that any

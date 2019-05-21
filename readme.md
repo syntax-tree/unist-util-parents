@@ -1,4 +1,9 @@
-# unist-util-parents [![Build Status][travis-badge]][travis] [![Coverage Status][codecov-badge]][codecov]
+# unist-util-parents
+
+[![Build][build-badge]][build]
+[![Coverage][coverage-badge]][coverage]
+[![Downloads][downloads-badge]][downloads]
+[![Size][size-badge]][size]
 
 Add parent references to [**unist**][unist] nodes.
 Instead of modifying the original syntax tree, this module returns a wrapper
@@ -94,13 +99,21 @@ repository, organisation, or community you agree to abide by its terms.
 
 <!-- Definitions -->
 
-[travis-badge]: https://img.shields.io/travis/syntax-tree/unist-util-parents.svg
+[build-badge]: https://img.shields.io/travis/syntax-tree/unist-util-parents.svg
 
-[travis]: https://travis-ci.org/syntax-tree/unist-util-parents
+[build]: https://travis-ci.org/syntax-tree/unist-util-parents
 
-[codecov-badge]: https://img.shields.io/codecov/c/github/syntax-tree/unist-util-parents.svg
+[coverage-badge]: https://img.shields.io/codecov/c/github/syntax-tree/unist-util-parents.svg
 
-[codecov]: https://codecov.io/github/syntax-tree/unist-util-parents
+[coverage]: https://codecov.io/github/syntax-tree/unist-util-parents
+
+[downloads-badge]: https://img.shields.io/npm/dm/unist-util-parents.svg
+
+[downloads]: https://www.npmjs.com/package/unist-util-parents
+
+[size-badge]: https://img.shields.io/bundlephobia/minzip/unist-util-parents.svg
+
+[size]: https://bundlephobia.com/result?p=unist-util-parents
 
 [npm]: https://docs.npmjs.com/cli/install
 

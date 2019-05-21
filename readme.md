@@ -5,7 +5,8 @@
 [![Downloads][downloads-badge]][downloads]
 [![Size][size-badge]][size]
 
-Add parent references to [**unist**][unist] nodes.
+[**unist**][unist] utility to add references to parents on nodes in a tree.
+
 Instead of modifying the original syntax tree, this module returns a wrapper
 that makes it easier to traverse that tree.
 
@@ -13,7 +14,7 @@ Algorithms that work on regular unist trees are (mostly) guaranteed to work on
 wrapped trees, and each wrapped node maintains a reference to the node from
 which it originated.
 
-## Installation
+## Install
 
 [npm][]:
 
@@ -23,34 +24,33 @@ npm install unist-util-parents
 
 ## Usage
 
-Say `example.md` looks as follows:
-
-```markdown
-*   top-level item
-
-    *   subitem 1
-    *   subitem 2
-```
-
-...and to follow parent links, our `example.js` looks like this:
-
 ```javascript
-var vfile = require('to-vfile')
-var unified = require('unified')
-var parse = require('remark-parse')
+var u = require('unist-builder')
 var parents = require('unist-util-parents')
 
-var tree = unified()
-  .use(parse)
-  .parse(vfile.readSync('example.md'))
+var tree = u('root', [
+  u('leaf', 'leaf 1'),
+  u('node', [
+    u('leaf', 'leaf 2'),
+    u('void'),
+    u('node', [
+      u('leaf', 'leaf 3'),
+      u('node', [u('leaf', 'leaf 4')]),
+      u('void'),
+      u('leaf', 'leaf 5')
+    ])
+  ])
+])
 
-// "subitem 2"
-var item = parents(tree).children[0].children[0].children[1].children[1]
+var wrapped = parents(tree)
+
+// Leaf 4
+var node = wrapped.children[1].children[2].children[1].children[0]
 
 var chain = []
-while (item) {
-  chain.unshift(item.type)
-  item = item.parent
+while (node) {
+  chain.unshift(node.type)
+  node = node.parent
 }
 
 console.log(chain)
@@ -59,7 +59,7 @@ console.log(chain)
 Yields:
 
 ```javascript
-[ 'root', 'list', 'listItem', 'list', 'listItem' ]
+[ 'root', 'node', 'node', 'node', 'leaf' ]
 ```
 
 ## API
@@ -75,10 +75,20 @@ all of its nodes:
 None of these properties are enumerable, and the original tree is *not changed*.
 This means you can `JSON.stringify` the wrapped tree and it is just the same.
 
-`wrappedTree.children` returns array of wrapped child nodes, so that any
+`wrapped.children` returns array of wrapped child nodes, so that any
 recursive algorithm will work on a wrapped tree just as well.
 
 Remember to access `.node` before you commit any changes to a node.
+
+###### Parameters
+
+*   `tree` ([`Node`][node]) — [Tree][] to wrap
+
+###### Returns
+
+[`Node`][node] — A wrapped node: shallow copy of the given node with
+non-enumerable references to `node` and `parent`, and if `tree` had children,
+they are wrapped as well.
 
 ## Related
 
@@ -87,11 +97,13 @@ Remember to access `.node` before you commit any changes to a node.
 
 ## Contribute
 
-See [`contributing.md` in `syntax-tree/unist`][contributing] for ways to get
+See [`contributing.md` in `syntax-tree/.github`][contributing] for ways to get
 started.
+See [`support.md`][support] for ways to get help.
 
-This organisation has a [Code of Conduct][coc].  By interacting with this
-repository, organisation, or community you agree to abide by its terms.
+This project has a [Code of Conduct][coc].
+By interacting with this repository, organisation, or community you agree to
+abide by its terms.
 
 ## License
 
@@ -119,10 +131,16 @@ repository, organisation, or community you agree to abide by its terms.
 
 [license]: license
 
-[contributing]: https://github.com/syntax-tree/unist/blob/master/contributing.md
-
-[coc]: https://github.com/syntax-tree/unist/blob/master/code-of-conduct.md
-
 [unist]: https://github.com/syntax-tree/unist
 
+[node]: https://github.com/syntax-tree/unist#node
+
+[tree]: https://github.com/syntax-tree/unist#tree
+
 [unist-util-visit-parents]: https://github.com/syntax-tree/unist-util-visit-parents
+
+[contributing]: https://github.com/syntax-tree/.github/blob/master/contributing.md
+
+[support]: https://github.com/syntax-tree/.github/blob/master/support.md
+
+[coc]: https://github.com/syntax-tree/.github/blob/master/code-of-conduct.md

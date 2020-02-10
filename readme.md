@@ -21,13 +21,13 @@ which it originated.
 
 [npm][]:
 
-```bash
+```sh
 npm install unist-util-parents
 ```
 
-## Usage
+## Use
 
-```javascript
+```js
 var u = require('unist-builder')
 var parents = require('unist-util-parents')
 
@@ -61,7 +61,7 @@ console.log(chain)
 
 Yields:
 
-```javascript
+```js
 [ 'root', 'node', 'node', 'node', 'leaf' ]
 ```
 
@@ -76,7 +76,7 @@ all of its nodes:
 *   `node` — link to the original node
 
 None of these properties are enumerable, and the original tree is *not changed*.
-This means you can `JSON.stringify` the wrapped tree and it is just the same.
+This means you can `JSON.stringify` the wrapped tree and it’s the same.
 
 `wrapped.children` returns array of wrapped child nodes, so that any
 recursive algorithm will work on a wrapped tree just as well.

@@ -1,14 +1,13 @@
 {
   "name": "unist-util-parents",
   "version": "1.0.2",
-  "description": "Add a parent reference for each AST node",
+  "description": "utility to add references to parents on nodes in a tree",
   "license": "MIT",
   "keywords": [
     "unist",
-    "remark",
-    "rehype",
-    "retext",
+    "unist-util",
     "util",
+    "utility",
     "parent",
     "parents",
     "node",

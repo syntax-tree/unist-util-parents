@@ -1,7 +1,7 @@
 {
   "name": "unist-util-parents",
   "version": "1.0.3",
-  "description": "utility to add references to parents on nodes in a tree",
+  "description": "unist utility to add references to parents on nodes in a tree",
   "license": "MIT",
   "keywords": [
     "unist",

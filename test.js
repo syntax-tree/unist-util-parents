@@ -19,7 +19,7 @@ var ast = {
   ]
 }
 
-test('immutable', function(t) {
+test('immutable', function (t) {
   var original = clone(ast)
   var root = parents(ast)
 
@@ -30,7 +30,7 @@ test('immutable', function(t) {
   t.end()
 })
 
-test('parent links', function(t) {
+test('parent links', function (t) {
   var root = parents(clone(ast))
   var heading = root.children[0]
   var cogito = heading.children[0]
@@ -53,7 +53,7 @@ test('parent links', function(t) {
   t.end()
 })
 
-test('node links', function(t) {
+test('node links', function (t) {
   var root = parents(ast)
   var heading = root.children[0]
   var headingNode = ast.children[0]

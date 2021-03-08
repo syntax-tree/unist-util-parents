@@ -31,13 +31,11 @@ function wrapNode(node, parent) {
     set: setParent
   })
 
-  if (node.children) {
-    Object.defineProperty(proxy, 'children', {
-      enumerable: true,
-      configurable: true,
-      get: getChildren
-    })
-  }
+  Object.defineProperty(proxy, 'children', {
+    enumerable: true,
+    configurable: true,
+    get: getChildren
+  })
 
   cache.set(node, proxy)
 
@@ -60,7 +58,7 @@ function wrapNode(node, parent) {
   }
 
   function getChildren() {
-    return node.children.map(wrap)
+    return node.children && node.children.map(wrap)
   }
 
   function wrap(child) {

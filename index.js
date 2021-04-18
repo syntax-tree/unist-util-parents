@@ -12,12 +12,19 @@ function parents(ast) {
 
 function wrapNode(node, parent) {
   var proxy
+  var key
 
   if (cache.has(node)) {
     return cache.get(node)
   }
 
-  proxy = Object.keys(node).reduce(reduce, {})
+  proxy = {}
+
+  for (key in node) {
+    if (key !== 'children') {
+      proxy[key] = node[key]
+    }
+  }
 
   Object.defineProperty(proxy, 'node', {
     writable: true,
@@ -43,14 +50,6 @@ function wrapNode(node, parent) {
 
   return proxy
 
-  function reduce(acc, key) {
-    if (key !== 'children') {
-      acc[key] = node[key]
-    }
-
-    return acc
-  }
-
   function getParent() {
     return parent
   }
@@ -60,10 +59,8 @@ function wrapNode(node, parent) {
   }
 
   function getChildren() {
-    return node.children.map(wrap)
-  }
-
-  function wrap(child) {
-    return wrapNode(child, proxy)
+    return node.children.map(function (child) {
+      return wrapNode(child, proxy)
+    })
   }
 }

@@ -24,7 +24,12 @@ test('immutable', function (t) {
   t.deepEqual(ast, original, 'original AST is unchanged')
   t.notEqual(root, ast, 'returns a different object')
   t.deepEqual(root, ast, 'structurally equivalent')
-  t.false(ast.children[0].parent, 'original AST does not obtain parent links')
+  t.equal(
+    // type-coverage:ignore-next-line, yeah, that’s expected.
+    ast.children[0].parent,
+    undefined,
+    'original AST does not obtain parent links'
+  )
   t.end()
 })
 

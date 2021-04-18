@@ -1,17 +1,38 @@
+/**
+ * @typedef {import('unist').Parent} Parent
+ * @typedef {import('unist').Node} Node
+ *
+ * @typedef {Node} Proxy
+ * @property {parent|null} parent
+ */
+
+/** @type {WeakMap<Node, Proxy>} */
 var cache = new WeakMap()
 
-export function parents(ast) {
-  return wrapNode(ast, null)
+/**
+ * @param {Node} tree
+ * @returns {Proxy}
+ */
+export function parents(tree) {
+  return wrapNode(tree, null)
 }
 
+/**
+ * @param {Node} node
+ * @param {Parent|null} parent
+ * @returns {Proxy}
+ */
 function wrapNode(node, parent) {
+  /** @type {Node} */
   var proxy
+  /** @type {string} */
   var key
 
   if (cache.has(node)) {
     return cache.get(node)
   }
 
+  // @ts-ignore Assume `node` is a valid node.
   proxy = {}
 
   for (key in node) {
@@ -48,13 +69,15 @@ function wrapNode(node, parent) {
     return parent
   }
 
+  /**
+   * @param {Parent} newParent
+   */
   function setParent(newParent) {
     parent = newParent
   }
 
   function getChildren() {
-    return node.children.map(function (child) {
-      return wrapNode(child, proxy)
-    })
+    // @ts-ignore `node` is a parent.
+    return node.children.map((/** @type {Node} */ c) => wrapNode(c, proxy))
   }
 }

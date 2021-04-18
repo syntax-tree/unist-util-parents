@@ -1,12 +1,6 @@
-'use strict'
-
-var WeakMap = require('es6-weak-map')
-
 var cache = new WeakMap()
 
-module.exports = parents
-
-function parents(ast) {
+export function parents(ast) {
   return wrapNode(ast, null)
 }
 

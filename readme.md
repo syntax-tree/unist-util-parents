@@ -19,6 +19,9 @@ which it originated.
 
 ## Install
 
+This package is [ESM only](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c):
+Node 12+ is needed to use it and it must be `import`ed instead of `require`d.
+
 [npm][]:
 
 ```sh
@@ -28,8 +31,8 @@ npm install unist-util-parents
 ## Use
 
 ```js
-var u = require('unist-builder')
-var parents = require('unist-util-parents')
+import {u} from 'unist-builder'
+import {parents} from 'unist-util-parents'
 
 var tree = u('root', [
   u('leaf', 'leaf 1'),
@@ -62,10 +65,13 @@ console.log(chain)
 Yields:
 
 ```js
-[ 'root', 'node', 'node', 'node', 'leaf' ]
+['root', 'node', 'node', 'node', 'leaf']
 ```
 
 ## API
+
+This package exports the following identifiers: `parents`.
+There is no default export.
 
 ### `parents(tree)`
 

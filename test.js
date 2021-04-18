@@ -1,8 +1,6 @@
-'use strict'
-
-var test = require('tape')
-var clone = require('clone')
-var parents = require('.')
+import test from 'tape'
+import clone from 'clone'
+import {parents} from './index.js'
 
 var ast = {
   type: 'root',

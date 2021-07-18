@@ -53,7 +53,7 @@ function wrapNode(node, parent) {
     set: setParent
   })
 
-  if (node.children) {
+  if ('children' in node) {
     Object.defineProperty(proxy, 'children', {
       enumerable: true,
       configurable: true,

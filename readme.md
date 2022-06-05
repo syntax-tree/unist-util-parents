@@ -8,24 +8,56 @@
 [![Backers][backers-badge]][collective]
 [![Chat][chat-badge]][chat]
 
-[**unist**][unist] utility to add references to parents on nodes in a tree.
+[unist][] utility to add references to parents on nodes in a tree.
 
-Instead of modifying the original syntax tree, this module returns a wrapper
-that makes it easier to traverse that tree.
+## Contents
 
-Algorithms that work on regular unist trees are (mostly) guaranteed to work on
-wrapped trees, and each wrapped node maintains a reference to the node from
-which it originated.
+*   [What is this?](#what-is-this)
+*   [When should I use this?](#when-should-i-use-this)
+*   [Install](#install)
+*   [Use](#use)
+*   [API](#api)
+    *   [`parents(node)`](#parentsnode)
+*   [Types](#types)
+*   [Compatibility](#compatibility)
+*   [Related](#related)
+*   [Contribute](#contribute)
+*   [License](#license)
+
+## What is this?
+
+This utility creates a proxy of the tree that acts like the original tree upon
+reading, but each proxied node has a reference to its parent node.
+
+## When should I use this?
+
+This package can be very useful for problems where it is needed to figure out
+what a nodes ancestors are, because unist itself is a non-cyclical data
+structure, and thus does not provide that information.
+On the other hand, this info on ancestors can also be gathered when walking the
+tree with [`unist-util-visit-parents`][unist-util-visit-parents].
 
 ## Install
 
-This package is [ESM only](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c):
-Node 12+ is needed to use it and it must be `import`ed instead of `require`d.
-
-[npm][]:
+This package is [ESM only][esm].
+In Node.js (version 12.20+, 14.14+, 16.0+, 18.0+), install with [npm][]:
 
 ```sh
 npm install unist-util-parents
+```
+
+In Deno with [`esm.sh`][esmsh]:
+
+```js
+import {parent} from "https://esm.sh/unist-util-parents@2"
+```
+
+In browsers with [`esm.sh`][esmsh]:
+
+```html
+<script type="module">
+  import {parent} from "https://esm.sh/unist-util-parents@2?bundle"
+</script>
 ```
 
 ## Use
@@ -34,7 +66,7 @@ npm install unist-util-parents
 import {u} from 'unist-builder'
 import {parents} from 'unist-util-parents'
 
-var tree = u('root', [
+const tree = u('root', [
   u('leaf', 'leaf 1'),
   u('node', [
     u('leaf', 'leaf 2'),
@@ -48,18 +80,18 @@ var tree = u('root', [
   ])
 ])
 
-var wrapped = parents(tree)
+const wrapped = parents(tree)
 
 // Leaf 4
-var node = wrapped.children[1].children[2].children[1].children[0]
+const node = wrapped.children[1].children[2].children[1].children[0]
 
-var chain = []
+const chain = []
 while (node) {
-  chain.unshift(node.type)
+  chain.push(node.type)
   node = node.parent
 }
 
-console.log(chain)
+console.log(chain.reverse())
 ```
 
 Yields:
@@ -70,47 +102,57 @@ Yields:
 
 ## API
 
-This package exports the following identifiers: `parents`.
+This package exports the identifier `parents`.
 There is no default export.
 
-### `parents(tree)`
+### `parents(node)`
 
-Returns a wrapped `tree` with a proxy that imposes two additional properties on
-all of its nodes:
+Create a proxy of `node` ([`Node`][node]) that acts like the original tree upon
+reading, but each proxied node has a reference to its parent node.
 
-*   `parent` — parent link (or `null` for the root node)
+The returned proxy imposes two additional fields on all of its nodes:
+
+*   `parent` — parent link (or `null` for the root)
 *   `node` — link to the original node
 
-None of these properties are enumerable, and the original tree is *not changed*.
-This means you can `JSON.stringify` the wrapped tree and it’s the same.
+These new fields are not enumerable and the original tree is *not changed*.
+This means you can use `JSON.stringify` on the wrapped tree and it’s the same.
 
-`wrapped.children` returns array of wrapped child nodes, so that any
-recursive algorithm will work on a wrapped tree just as well.
+`wrapped.children` returns array of wrapped child nodes, so that any recursive
+algorithm will work on a wrapped tree just as well.
 
-Remember to access `.node` before you commit any changes to a node.
-
-###### Parameters
-
-*   `tree` ([`Node`][node]) — [Tree][] to wrap
+To write changes to the tree, use `.node` to access the original tree.
 
 ###### Returns
 
-[`Node`][node] — A wrapped node: shallow copy of the given node with
-non-enumerable references to `node` and `parent`, and if `tree` had children,
-they are wrapped as well.
+A wrapped node ([`Node`][node]), which is a shallow copy of the given node that
+also includes non-enumerable references to `node` and `parent`, and if `tree`
+had children, they are wrapped as well.
+
+## Types
+
+This package is fully typed with [TypeScript][].
+It exports the additional type `Proxy`.
+
+## Compatibility
+
+Projects maintained by the unified collective are compatible with all maintained
+versions of Node.js.
+As of now, that is Node.js 12.20+, 14.14+, 16.0+, and 18.0+.
+Our projects sometimes work with older versions, but this is not guaranteed.
 
 ## Related
 
 *   [`unist-util-visit-parents`][unist-util-visit-parents]
-    — Recursively walk over unist nodes, with ancestral information
+    — walk the tree with ancestral information
 
 ## Contribute
 
-See [`contributing.md` in `syntax-tree/.github`][contributing] for ways to get
-started.
+See [`contributing.md`][contributing] in [`syntax-tree/.github`][health] for
+ways to get started.
 See [`support.md`][support] for ways to get help.
 
-This project has a [Code of Conduct][coc].
+This project has a [code of conduct][coc].
 By interacting with this repository, organisation, or community you agree to
 abide by its terms.
 
@@ -148,18 +190,24 @@ abide by its terms.
 
 [npm]: https://docs.npmjs.com/cli/install
 
+[esm]: https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c
+
+[esmsh]: https://esm.sh
+
+[typescript]: https://www.typescriptlang.org
+
 [license]: license
+
+[health]: https://github.com/syntax-tree/.github
+
+[contributing]: https://github.com/syntax-tree/.github/blob/main/contributing.md
+
+[support]: https://github.com/syntax-tree/.github/blob/main/support.md
+
+[coc]: https://github.com/syntax-tree/.github/blob/main/code-of-conduct.md
 
 [unist]: https://github.com/syntax-tree/unist
 
 [node]: https://github.com/syntax-tree/unist#node
 
-[tree]: https://github.com/syntax-tree/unist#tree
-
 [unist-util-visit-parents]: https://github.com/syntax-tree/unist-util-visit-parents
-
-[contributing]: https://github.com/syntax-tree/.github/blob/HEAD/contributing.md
-
-[support]: https://github.com/syntax-tree/.github/blob/HEAD/support.md
-
-[coc]: https://github.com/syntax-tree/.github/blob/HEAD/code-of-conduct.md

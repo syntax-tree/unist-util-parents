@@ -2,38 +2,47 @@
  * @typedef {import('unist').Parent} Parent
  * @typedef {import('unist').Node} Node
  *
- * @typedef {Node} Proxy
- * @property {parent|null} parent
+ * @typedef ProxyFields
+ * @property {Parent|null} parent
+ *   Parent link (or `null` for the root).
+ * @property {Node} node
+ *   Link to the original node
+ *
+ * @typedef {Node & ProxyFields} Proxy
+ *   Proxied node
  */
 
 /** @type {WeakMap<Node, Proxy>} */
-var cache = new WeakMap()
+const cache = new WeakMap()
 
 /**
- * @param {Node} tree
+ * @param {Node} node
+ *   Create a proxy of `node` that acts like the original tree upon reading, but
+ *   each proxied node has a reference to its parent node.
  * @returns {Proxy}
+ *   Proxy of `node`.
  */
-export function parents(tree) {
-  return wrapNode(tree, null)
+export function parents(node) {
+  return wrapNode(node, null)
 }
 
 /**
  * @param {Node} node
+ *   Node to wrap.
  * @param {Parent|null} parent
+ *   Parent of `node`.
  * @returns {Proxy}
+ *   Proxy of `node`.
  */
 function wrapNode(node, parent) {
-  /** @type {Node} */
-  var proxy
-  /** @type {string} */
-  var key
-
   if (cache.has(node)) {
     return cache.get(node)
   }
 
-  // @ts-ignore Assume `node` is a valid node.
-  proxy = {}
+  /** @type {Proxy} */
+  const proxy = {}
+  /** @type {string} */
+  let key
 
   for (key in node) {
     if (key !== 'children') {
@@ -65,19 +74,27 @@ function wrapNode(node, parent) {
 
   return proxy
 
+  /**
+   * Get the `parent` reference of a proxied node.
+   */
   function getParent() {
     return parent
   }
 
   /**
+   * Set the `parent` reference of a proxied node.
+   *
    * @param {Parent} newParent
    */
   function setParent(newParent) {
     parent = newParent
   }
 
+  /**
+   * Get the wrapped children of a proxied node.
+   */
   function getChildren() {
-    // @ts-ignore `node` is a parent.
+    // @ts-expect-error `node` is a parent.
     return node.children.map((/** @type {Node} */ c) => wrapNode(c, proxy))
   }
 }

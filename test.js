@@ -7,7 +7,7 @@ import test from 'tape'
 import clone from 'clone'
 import {parents} from './index.js'
 
-var ast = {
+const ast = {
   type: 'root',
   children: [
     {
@@ -23,8 +23,8 @@ var ast = {
 }
 
 test('immutable', function (t) {
-  var original = clone(ast)
-  var root = parents(ast)
+  const original = clone(ast)
+  const root = parents(ast)
 
   t.deepEqual(ast, original, 'original AST is unchanged')
   t.notEqual(root, ast, 'returns a different object')
@@ -39,15 +39,13 @@ test('immutable', function (t) {
 })
 
 test('parent links', function (t) {
-  var root = parents(clone(ast))
-  /** @type {Parent} */ // @ts-expect-error: hush.
-  var heading = root.children[0]
-  /** @type {Parent} */ // @ts-expect-error: hush.
-  var cogito = heading.children[0]
-  /** @type {Parent} */ // @ts-expect-error: hush.
-  var emphasis = heading.children[1]
-  var ergo = emphasis.children[0]
-  var sum = heading.children[2]
+  const root = parents(clone(ast))
+  // @ts-expect-error: hush
+  const heading = /** @type {Parent} */ (root.children[0])
+  const cogito = /** @type {Parent} */ (heading.children[0])
+  const emphasis = /** @type {Parent} */ (heading.children[1])
+  const ergo = emphasis.children[0]
+  const sum = heading.children[2]
 
   // @ts-expect-error: custom.
   t.equal(ergo.parent, emphasis, 'ergo.parent === emphasis')
@@ -59,7 +57,6 @@ test('parent links', function (t) {
   t.equal(sum.parent, heading, 'sum.parent === heading')
   // @ts-expect-error: custom.
   t.equal(heading.parent, root, 'heading.parent === root')
-  // @ts-expect-error: custom.
   t.false(root.parent, 'root has no parent')
 
   t.equal(Object.keys(sum).indexOf('parent'), -1, 'not enumerable')
@@ -73,10 +70,10 @@ test('parent links', function (t) {
 })
 
 test('node links', function (t) {
-  var root = parents(ast)
+  const root = parents(ast)
   /** @type {Parent} */ // @ts-expect-error: hush.
-  var heading = root.children[0]
-  var headingNode = ast.children[0]
+  const heading = root.children[0]
+  const headingNode = ast.children[0]
 
   // @ts-expect-error: custom.
   t.equal(heading.node, headingNode)

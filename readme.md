@@ -17,7 +17,7 @@
 *   [Install](#install)
 *   [Use](#use)
 *   [API](#api)
-    *   [`parents(node)`](#parentsnode)
+    *   [`parents(tree)`](#parentstree)
 *   [Types](#types)
 *   [Compatibility](#compatibility)
 *   [Related](#related)
@@ -40,7 +40,7 @@ tree with [`unist-util-visit-parents`][unist-util-visit-parents].
 ## Install
 
 This package is [ESM only][esm].
-In Node.js (version 12.20+, 14.14+, 16.0+, 18.0+), install with [npm][]:
+In Node.js (version 14.14+ and 16.0+), install with [npm][]:
 
 ```sh
 npm install unist-util-parents
@@ -49,14 +49,14 @@ npm install unist-util-parents
 In Deno with [`esm.sh`][esmsh]:
 
 ```js
-import {parent} from "https://esm.sh/unist-util-parents@2"
+import {parent} from 'https://esm.sh/unist-util-parents@2'
 ```
 
 In browsers with [`esm.sh`][esmsh]:
 
 ```html
 <script type="module">
-  import {parent} from "https://esm.sh/unist-util-parents@2?bundle"
+  import {parent} from 'https://esm.sh/unist-util-parents@2?bundle'
 </script>
 ```
 
@@ -102,13 +102,15 @@ Yields:
 
 ## API
 
-This package exports the identifier `parents`.
+This package exports the identifier [`parents`][parents].
 There is no default export.
 
-### `parents(node)`
+### `parents(tree)`
 
-Create a proxy of `node` ([`Node`][node]) that acts like the original tree upon
-reading, but each proxied node has a reference to its parent node.
+Create a proxy of `tree` that acts like the original tree upon reading, but
+each proxied node has a reference to its parent node.
+
+###### Notes
 
 The returned proxy imposes two additional fields on all of its nodes:
 
@@ -123,11 +125,14 @@ algorithm will work on a wrapped tree just as well.
 
 To write changes to the tree, use `.node` to access the original tree.
 
+###### Parameters
+
+*   `tree` ([`Node`][node])
+    — tree to proxy
+
 ###### Returns
 
-A wrapped node ([`Node`][node]), which is a shallow copy of the given node that
-also includes non-enumerable references to `node` and `parent`, and if `tree`
-had children, they are wrapped as well.
+Proxy of `tree` (`Proxy`).
 
 ## Types
 
@@ -138,7 +143,7 @@ It exports the additional type `Proxy`.
 
 Projects maintained by the unified collective are compatible with all maintained
 versions of Node.js.
-As of now, that is Node.js 12.20+, 14.14+, 16.0+, and 18.0+.
+As of now, that is Node.js 14.14+ and 16.0+.
 Our projects sometimes work with older versions, but this is not guaranteed.
 
 ## Related
@@ -211,3 +216,5 @@ abide by its terms.
 [node]: https://github.com/syntax-tree/unist#node
 
 [unist-util-visit-parents]: https://github.com/syntax-tree/unist-util-visit-parents
+
+[parents]: #parentstree

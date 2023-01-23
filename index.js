@@ -35,8 +35,10 @@ export function parents(node) {
  *   Proxy of `node`.
  */
 function wrapNode(node, parent) {
-  if (cache.has(node)) {
-    return cache.get(node)
+  const entry = cache.get(node)
+
+  if (entry) {
+    return entry
   }
 
   /** @type {Proxy} */
@@ -46,6 +48,7 @@ function wrapNode(node, parent) {
 
   for (key in node) {
     if (key !== 'children') {
+      // @ts-expect-error: indexable.
       proxy[key] = node[key]
     }
   }

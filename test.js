@@ -1,12 +1,14 @@
 /**
- * @typedef {import('unist').Node} Node
+ * @typedef {import('mdast').Root} Root
  * @typedef {import('unist').Parent} Parent
  */
 
 import test from 'tape'
+// To do: replace with `structuredClone` when stable.
 import clone from 'clone'
 import {parents} from './index.js'
 
+/** @type {Root} */
 const ast = {
   type: 'root',
   children: [
@@ -29,12 +31,8 @@ test('immutable', function (t) {
   t.deepEqual(ast, original, 'original AST is unchanged')
   t.notEqual(root, ast, 'returns a different object')
   t.deepEqual(root, ast, 'structurally equivalent')
-  t.equal(
-    // type-coverage:ignore-next-line, yeah, that’s expected.
-    ast.children[0].parent,
-    undefined,
-    'original AST does not obtain parent links'
-  )
+  const head = ast.children[0]
+  t.ok(!('parent' in head), 'original AST does not obtain parent links')
   t.end()
 })
 

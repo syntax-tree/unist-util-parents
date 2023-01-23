@@ -8,6 +8,7 @@ import test from 'node:test'
 // To do: replace with `structuredClone` when stable.
 import clone from 'clone'
 import {parents} from './index.js'
+import * as mod from './index.js'
 
 /** @type {Root} */
 const ast = {
@@ -24,6 +25,14 @@ const ast = {
     }
   ]
 }
+
+test('core', () => {
+  assert.deepEqual(
+    Object.keys(mod).sort(),
+    ['parents'],
+    'should expose the public api'
+  )
+})
 
 test('immutable', function () {
   const original = clone(ast)

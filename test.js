@@ -3,7 +3,8 @@
  * @typedef {import('unist').Parent} Parent
  */
 
-import test from 'tape'
+import assert from 'node:assert/strict'
+import test from 'node:test'
 // To do: replace with `structuredClone` when stable.
 import clone from 'clone'
 import {parents} from './index.js'
@@ -24,19 +25,18 @@ const ast = {
   ]
 }
 
-test('immutable', function (t) {
+test('immutable', function () {
   const original = clone(ast)
   const root = parents(ast)
 
-  t.deepEqual(ast, original, 'original AST is unchanged')
-  t.notEqual(root, ast, 'returns a different object')
-  t.deepEqual(root, ast, 'structurally equivalent')
+  assert.deepEqual(ast, original, 'original AST is unchanged')
+  assert.notEqual(root, ast, 'returns a different object')
+  assert.deepEqual(root, ast, 'structurally equivalent')
   const head = ast.children[0]
-  t.ok(!('parent' in head), 'original AST does not obtain parent links')
-  t.end()
+  assert.ok(!('parent' in head), 'original AST does not obtain parent links')
 })
 
-test('parent links', function (t) {
+test('parent links', function () {
   const root = parents(clone(ast))
   // @ts-expect-error: hush
   const heading = /** @type {Parent} */ (root.children[0])
@@ -46,35 +46,32 @@ test('parent links', function (t) {
   const sum = heading.children[2]
 
   // @ts-expect-error: custom.
-  t.equal(ergo.parent, emphasis, 'ergo.parent === emphasis')
+  assert.equal(ergo.parent, emphasis, 'ergo.parent === emphasis')
   // @ts-expect-error: custom.
-  t.equal(cogito.parent, heading, 'cogito.parent === heading')
+  assert.equal(cogito.parent, heading, 'cogito.parent === heading')
   // @ts-expect-error: custom.
-  t.equal(emphasis.parent, heading, 'emphasis.parent === heading')
+  assert.equal(emphasis.parent, heading, 'emphasis.parent === heading')
   // @ts-expect-error: custom.
-  t.equal(sum.parent, heading, 'sum.parent === heading')
+  assert.equal(sum.parent, heading, 'sum.parent === heading')
   // @ts-expect-error: custom.
-  t.equal(heading.parent, root, 'heading.parent === root')
-  t.false(root.parent, 'root has no parent')
+  assert.equal(heading.parent, root, 'heading.parent === root')
+  assert.equal(root.parent, null, 'root has no parent')
 
-  t.equal(Object.keys(sum).indexOf('parent'), -1, 'not enumerable')
+  assert.equal(Object.keys(sum).indexOf('parent'), -1, 'not enumerable')
 
   // @ts-expect-error: custom.
   ergo.parent = ergo.parent.parent
   // @ts-expect-error: custom.
-  t.equal(emphasis.children[0].parent, heading, 'can modify parent link')
-
-  t.end()
+  assert.equal(emphasis.children[0].parent, heading, 'can modify parent link')
 })
 
-test('node links', function (t) {
+test('node links', function () {
   const root = parents(ast)
   /** @type {Parent} */ // @ts-expect-error: hush.
   const heading = root.children[0]
   const headingNode = ast.children[0]
 
   // @ts-expect-error: custom.
-  t.equal(heading.node, headingNode)
-  t.equal(Object.keys(heading).indexOf('node'), -1, 'not enumerable')
-  t.end()
+  assert.equal(heading.node, headingNode)
+  assert.equal(Object.keys(heading).indexOf('node'), -1, 'not enumerable')
 })

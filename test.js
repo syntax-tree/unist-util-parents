@@ -6,7 +6,7 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
 import structuredClone from '@ungap/structured-clone'
-import {parents} from './index.js'
+import {parents} from 'unist-util-parents'
 
 /** @type {Root} */
 const ast = {
@@ -26,7 +26,7 @@ const ast = {
 
 test('parents', async function (t) {
   await t.test('should expose the public api', async function () {
-    assert.deepEqual(Object.keys(await import('./index.js')).sort(), [
+    assert.deepEqual(Object.keys(await import('unist-util-parents')).sort(), [
       'parents'
     ])
   })

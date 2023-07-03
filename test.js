@@ -5,8 +5,7 @@
 
 import assert from 'node:assert/strict'
 import test from 'node:test'
-// To do: replace with `structuredClone` when stable.
-import clone from 'clone'
+import structuredClone from '@ungap/structured-clone'
 import {parents} from './index.js'
 import * as mod from './index.js'
 
@@ -35,7 +34,7 @@ test('core', () => {
 })
 
 test('immutable', function () {
-  const original = clone(ast)
+  const original = structuredClone(ast)
   const root = parents(ast)
 
   assert.deepEqual(ast, original, 'original AST is unchanged')
@@ -46,7 +45,7 @@ test('immutable', function () {
 })
 
 test('parent links', function () {
-  const root = parents(clone(ast))
+  const root = parents(structuredClone(ast))
   // @ts-expect-error: hush
   const heading = /** @type {Parent} */ (root.children[0])
   const cogito = /** @type {Parent} */ (heading.children[0])

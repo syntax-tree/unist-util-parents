@@ -18,6 +18,7 @@
 *   [Use](#use)
 *   [API](#api)
     *   [`parents(tree)`](#parentstree)
+    *   [`Proxy`](#proxy)
 *   [Types](#types)
 *   [Compatibility](#compatibility)
 *   [Related](#related)
@@ -40,7 +41,7 @@ tree with [`unist-util-visit-parents`][unist-util-visit-parents].
 ## Install
 
 This package is [ESM only][esm].
-In Node.js (version 14.14+ and 16.0+), install with [npm][]:
+In Node.js (version 16+), install with [npm][]:
 
 ```sh
 npm install unist-util-parents
@@ -102,7 +103,7 @@ Yields:
 
 ## API
 
-This package exports the identifier [`parents`][parents].
+This package exports the identifier [`parents`][api-parents].
 There is no default export.
 
 ### `parents(tree)`
@@ -132,19 +133,29 @@ To write changes to the tree, use `.node` to access the original tree.
 
 ###### Returns
 
-Proxy of `tree` (`Proxy`).
+Proxy of `tree` ([`Proxy`][api-proxy]).
+
+### `Proxy`
+
+A proxy of a [`Node`][node] that adds two additional fields:
+
+*   `parent` — parent link (or `undefined` for the root)
+*   `node` — link to the original node
 
 ## Types
 
 This package is fully typed with [TypeScript][].
-It exports the additional type `Proxy`.
+It exports the additional type [`Proxy`][api-proxy].
 
 ## Compatibility
 
-Projects maintained by the unified collective are compatible with all maintained
+Projects maintained by the unified collective are compatible with maintained
 versions of Node.js.
-As of now, that is Node.js 14.14+ and 16.0+.
-Our projects sometimes work with older versions, but this is not guaranteed.
+
+When we cut a new major release, we drop support for unmaintained versions of
+Node.
+This means we try to keep the current release line, `unist-util-parents@^2`,
+compatible with Node.js 12.
 
 ## Related
 
@@ -179,9 +190,9 @@ abide by its terms.
 
 [downloads]: https://www.npmjs.com/package/unist-util-parents
 
-[size-badge]: https://img.shields.io/bundlephobia/minzip/unist-util-parents.svg
+[size-badge]: https://img.shields.io/badge/dynamic/json?label=minzipped%20size&query=$.size.compressedSize&url=https://deno.bundlejs.com/?q=unist-util-parents
 
-[size]: https://bundlephobia.com/result?p=unist-util-parents
+[size]: https://bundlejs.com/?q=unist-util-parents
 
 [sponsors-badge]: https://opencollective.com/unified/sponsors/badge.svg
 
@@ -217,4 +228,6 @@ abide by its terms.
 
 [unist-util-visit-parents]: https://github.com/syntax-tree/unist-util-visit-parents
 
-[parents]: #parentstree
+[api-parents]: #parentstree
+
+[api-proxy]: #proxy

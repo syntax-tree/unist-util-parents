@@ -114,7 +114,7 @@ each proxied node has a reference to its parent node.
 
 The returned proxy imposes two additional fields on all of its nodes:
 
-*   `parent` — parent link (or `null` for the root)
+*   `parent` — parent link (or `undefined` for the root)
 *   `node` — link to the original node
 
 These new fields are not enumerable and the original tree is *not changed*.

@@ -50,14 +50,14 @@ npm install unist-util-parents
 In Deno with [`esm.sh`][esmsh]:
 
 ```js
-import {parent} from 'https://esm.sh/unist-util-parents@2'
+import {parent} from 'https://esm.sh/unist-util-parents@3'
 ```
 
 In browsers with [`esm.sh`][esmsh]:
 
 ```html
 <script type="module">
-  import {parent} from 'https://esm.sh/unist-util-parents@2?bundle'
+  import {parent} from 'https://esm.sh/unist-util-parents@3?bundle'
 </script>
 ```
 
